@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using PostGradAdminAPI.Models;
 using PostGradAdminAPI.Models.DTOs;
 using PostGradAdminAPI.Services;
@@ -10,8 +11,10 @@ namespace PostGradAdminAPI.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly StudentService _studentService;
-        public StudentsController(StudentService studentService) { 
+        private readonly IMapper _mapper;
+        public StudentsController(StudentService studentService,IMapper mapper) { 
         _studentService = studentService;
+            _mapper = mapper;
         
         }
 
@@ -21,7 +24,9 @@ namespace PostGradAdminAPI.Controllers
 
            var student = _studentService.GetById(id);
 
-            return Ok(student);
+           var studentReadDTO = _mapper.Map<StudentReadDTO>(student);
+
+           return Ok(studentReadDTO);
 
         }
 
@@ -35,6 +40,7 @@ namespace PostGradAdminAPI.Controllers
             // convert Student to StudentReadDTO
 
             return Ok(students);
+
 
         }
 

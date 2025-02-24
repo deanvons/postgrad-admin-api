@@ -9,7 +9,8 @@ namespace PostGradAdminAPI.Models
         public string Name { get; set; }
         public string ParentName { get; set; }
 
-        
+        // not included in ReadDTO
+        public string? NickName { get; set; }
 
     }
 }

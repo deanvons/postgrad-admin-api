@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<StudentService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddDbContext<PostGradDbContext>(options =>
 options.UseSqlServer("Data Source = MSI\\SQLEXPRESS; Initial Catalog = PostgradEFAPI; Integrated Security = true; Trust Server Certificate = true;")
