@@ -24,8 +24,10 @@ namespace PostGradAdminAPI.Controllers
 
            var student = _studentService.GetById(id);
 
+           // converts the student model to a StudentReadDTO
            var studentReadDTO = _mapper.Map<StudentReadDTO>(student);
 
+           // send the StudentReadDTO version of the object
            return Ok(studentReadDTO);
 
         }
@@ -37,9 +39,10 @@ namespace PostGradAdminAPI.Controllers
             
             var students = _studentService.GetAllStudents();
 
-            // convert Student to StudentReadDTO
+            // convert Student collection to StudentReadDTO
+            var DTOStudents = _mapper.Map<IEnumerable<StudentReadDTO>>(students);
 
-            return Ok(students);
+            return Ok(DTOStudents);
 
 
         }
