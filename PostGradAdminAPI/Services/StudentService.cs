@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using PostGradAdminAPI.Data;
 using PostGradAdminAPI.Models;
+using PostGradAdminAPI.Exceptions;
 
 namespace PostGradAdminAPI.Services
 {
@@ -34,7 +35,7 @@ namespace PostGradAdminAPI.Services
         }
 
 
-        public void  Delete(int studentId)
+        public void Delete(int studentId)
         {
             var studentToDelete = _dbcontext.Students.Find(studentId);
 
@@ -47,6 +48,11 @@ namespace PostGradAdminAPI.Services
         public Student GetById(int studentId)
         {
             var student = _dbcontext.Students.Find(studentId);
+
+            if(student == null)
+            {
+                throw new EntityNotFoundException("Student",studentId);
+            }
 
             return student;
 

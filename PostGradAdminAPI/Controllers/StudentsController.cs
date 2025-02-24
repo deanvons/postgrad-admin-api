@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PostGradAdminAPI.Exceptions;
 using PostGradAdminAPI.Models;
 using PostGradAdminAPI.Models.DTOs;
 using PostGradAdminAPI.Services;
@@ -21,15 +22,26 @@ namespace PostGradAdminAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Student> GetStudentById(int id)
         {
+            try
+            {
+                var student = _studentService.GetById(id);
 
-           var student = _studentService.GetById(id);
+                // converts the student model to a StudentReadDTO
+                var studentReadDTO = _mapper.Map<StudentReadDTO>(student);
 
-           // converts the student model to a StudentReadDTO
-           var studentReadDTO = _mapper.Map<StudentReadDTO>(student);
+                // send the StudentReadDTO version of the object
+                return Ok(studentReadDTO);
+            }
 
-           // send the StudentReadDTO version of the object
-           return Ok(studentReadDTO);
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
 
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "Something went wrong");
+            }
         }
 
 
